@@ -8,7 +8,11 @@ This is a website for my recipes
     
     uvicorn app.handlers.main:app --host 0.0.0.0 --port 80  
 ```
+Hint you should see that you are in the virtual env on your terminal
+
 This service has FastAPI docs. You can navigate to `http://127.0.0.1/docs` to use the api.
+
+To deactivate the python env run `deactivate`
 
 ### Run the service in a docker container
 1. Start docker
