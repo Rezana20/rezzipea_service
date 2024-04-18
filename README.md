@@ -14,6 +14,13 @@ This service has FastAPI docs. You can navigate to `http://127.0.0.1/docs` to us
 
 To deactivate the python env run `deactivate`
 
+### Manage the database
+Console view:
+- Navigate to https://cockroachlabs.cloud/cluster/3250ce6a-65af-4039-a737-1631378f5a0d/overview
+
+Connection steps:
+- https://www.cockroachlabs.com/docs/stable/connect-to-the-database?filters=python&filters=psycopg3
+
 ### Run the service in a docker container
 1. Start docker
 2. Delete old containers + images

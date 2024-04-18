@@ -13,8 +13,9 @@
 1. Design endpoints and service
 
 ### Data Storage
-1. Investigate storage options on gcp
-2. Design database
+1. Investigate storage options on gcp - too expensive, using cockroachdb for free
+2. Investigate how to connect and create db storage (https://www.cockroachlabs.com/docs/stable/connect-to-the-database?filters=python&filters=psycopg3)
+3. Design database
 
 ### Frontend
 1. Set up NextJS project for UI
