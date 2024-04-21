@@ -4,7 +4,7 @@ This is a website for my recipes
 ### Run the service locally
 ```bash
     python3 -m venv rezzipeas_venv
-    source /Users/dowra/Documents/GitHub/rezzipea_service/rezzipeas_venv/bin/activate
+    source /Users/rezanadowra/Documents/GitHub/rezzipea_service/rezzipeas_venv/bin/activate
     
     uvicorn app.handlers.main:app --host 0.0.0.0 --port 80  
 ```
@@ -36,6 +36,10 @@ python3 -m venv rezzipeas_venv
 source /Users/dowra/Documents/GitHub/rezzipea_service/rezzipeas_venv/bin/activate
 python3 -m pip install <package-name>
 
+#### Troubleshooting
+
+1. I tried using the env and I when running the uvicorn command I get uvicorn not found. 
+   - python3 -m uvicorn app.handlers.main:app --reload
 
 ### Links
 
