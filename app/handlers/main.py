@@ -1,8 +1,12 @@
 import csv
 import re
-from typing import Union
+import logging
 
 from fastapi import FastAPI
+
+from app.db.cockroach_db import CockroachDBConnection
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -12,22 +16,18 @@ def read_root():
 
 @app.post("/newsletter/subscribe")
 def newsletter_subscribe(user_name: str, email_address: str):
+    logger.info("This is a log message from your endpoint")
     # validate email address
     email_address_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     if not re.match(email_address_pattern, email_address):
         return {"status": "failure", "message": "Invalid email address {0}".format(email_address)}
 
-    # initialise the entry data
-    newsletter_field_names = ['username', 'email_address']
-    new_subscriber_entry = {"username": user_name, "email_address": email_address}
-
-    # open the file and append to it and close it
-    with open("app/data/subscribers.csv", 'a') as emailing_group:
-        new_subscriber_writer = csv.DictWriter(emailing_group, fieldnames=newsletter_field_names)
-        new_subscriber_writer.writerow(new_subscriber_entry)
-        emailing_group.close()
-
-    return {"status": "success", "message": "Subscribed with {0}".format(email_address)}
+    db = CockroachDBConnection()
+    if db.is_subscriber_email_unique(email_address):
+        # TODO add email address
+        return {"status": "success", "message": "Subscribed with {0}".format(email_address)}
+    else:
+        return {"status": "failure", "message": "Already subscribed with {0}".format(email_address)}
 
 
 @app.post("/newsletter/unsubscribe")

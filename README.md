@@ -25,8 +25,8 @@ Connection steps:
 1. Start docker
 2. Delete old containers + images
 3. Run `docker build -t myimage .  ` to create the image 
-4. Run image in my container with `docker run -d --name mycontainer -p 80:80 myimage `
-5. Navigate to `http://0.0.0.0:80` or `http://127.0.0.1/docs`
+4. Run image in my container with ` docker run -d --name mycontainer -p 80:80 --env-file dev.env  myimage`
+5. Navigate to `http://0.0.0.0:80` or `http://127.0.0.1/docs `
 
 ### Setup 
 
