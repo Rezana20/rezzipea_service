@@ -9,6 +9,18 @@
 ~~1. Add Dockerfile and add container instructions~~
 ~~2. Test Docker image~~ 
 
+### Add subscribe feature 
+~~1. Add endpoints to subscribe and unsubscribe~~
+~~2. Add new db connection~~
+~~3. Add basemodels~~
+~~4. Refactor existing code~~
+5. Add testing
+
+### Formulate idea
+1. Online personal recipe diary
+2. Plugins to add nutrional charts
+3. Online recipe book
+
 ### Pipeline
 1. Investigate pipelines and repos in GCP
 
@@ -42,14 +54,18 @@
 Summary 
 
 NEXT 
-- to test on docker.
-- Add write to DB to update subscriber list
+- Test new subscription endpoints with unit tests and manually
+- Complete unsubscribe
+- Create a UI to join the waiting list - BIG!
 - 
 COMPLETED/LEARNED
 - Connected to DB and tested locally 
 - Added DOCKER ENV variables with db connections safely
 - Connect to cockroach db - similar to any postgres db
 - Added certs to ~/.postgres
+- Tested on docker.
+- Add write to DB to update subscriber list
+- Added logging 
 
 
 

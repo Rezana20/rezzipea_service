@@ -2,11 +2,11 @@
 This is a website for my recipes
 
 ### Run the service locally
+Go to one level above rezzipea_service
 ```bash
     python3 -m venv rezzipeas_venv
     source /Users/rezanadowra/Documents/GitHub/rezzipea_service/rezzipeas_venv/bin/activate
-    
-    uvicorn app.handlers.main:app --host 0.0.0.0 --port 80  
+    uvicorn rezzipea_service.app.handlers.main:app --host 0.0.0.0 --port 80
 ```
 Hint you should see that you are in the virtual env on your terminal
 

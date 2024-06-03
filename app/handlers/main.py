@@ -1,51 +1,46 @@
-import csv
+import os
 import re
 import logging
+import sys
+from typing import Dict
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
-from app.db.cockroach_db import CockroachDBConnection
+# Ensure the app module is in the path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from rezzipea_service.app.db.subscriber_repository import SubscriberRepository
+from rezzipea_service.app.models.subcriber_models import SubscriberRequest
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/newsletter/subscribe")
-def newsletter_subscribe(user_name: str, email_address: str):
-    logger.info("This is a log message from your endpoint")
-    # validate email address
-    email_address_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    if not re.match(email_address_pattern, email_address):
-        return {"status": "failure", "message": "Invalid email address {0}".format(email_address)}
 
-    db = CockroachDBConnection()
-    if db.is_subscriber_email_unique(email_address):
-        # TODO add email address
-        return {"status": "success", "message": "Subscribed with {0}".format(email_address)}
+@app.post("/newsletter/subscribe")
+def newsletter_subscribe(request: SubscriberRequest) -> Dict[str, str]:
+    logger.info('newsletter_subscribe')
+
+    email_address_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    if not re.match(email_address_pattern, request.email_address):
+        logger.warning(f'Invalid email address format: {request.email_address}')
+        raise HTTPException(status_code=400, detail=f"Invalid email address: {request.email_address}")
+    logger.info('Validated email format successfully')
+
+    subscriber = SubscriberRepository()
+    if subscriber.add_subscriber(request.email_address, request.user_name) is None:
+        logger.warning(f'Already subscribed with: {request.email_address}')
+        raise HTTPException(status_code=409, detail=f"Already subscribed with {request.email_address}")
     else:
-        return {"status": "failure", "message": "Already subscribed with {0}".format(email_address)}
+        return {"status": "success", "message": "Subscribed with {0}".format(request.email_address)}
 
 
 @app.post("/newsletter/unsubscribe")
-def newsletter_subscribe(email: str):
-    with open("app/data/subscribers.csv", 'r', newline='') as infile, open("app/data/subscribers.csv", 'w',
-                                                                      newline='') as outfile:
-        reader = csv.reader(infile)
-        writer = csv.writer(outfile)
+def newsletter_subscribe(email_address: str):
+    return {"status": "success", "message": "Feature in progress, we will remove {0} soon".format(email_address)}
 
-        # Iterate through each row in the input file
-        for row in reader:
-            # Check if the email address in the row matches the one to delete
-            # row[0] is name and row[1] is user email address
-            if email == row[1]:
-                # Skip this row if the email matches
-                continue
-            # Write the row to the output file if the email doesn't match
-            writer.writerow(row)
-
-    return {"status": "success", "message": "We are sorry to see you leave."
-                                            " Unsubscribed from our content, from {0}".format(email)}
