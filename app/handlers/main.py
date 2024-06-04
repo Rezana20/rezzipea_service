@@ -13,6 +13,7 @@ from rezzipea_service.app.db.subscriber_repository import SubscriberRepository
 from rezzipea_service.app.models.subcriber_models import SubscriberRequest
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = FastAPI()
 
@@ -33,14 +34,16 @@ def newsletter_subscribe(request: SubscriberRequest) -> Dict[str, str]:
     logger.info('Validated email format successfully')
 
     subscriber = SubscriberRepository()
-    if subscriber.add_subscriber(request.email_address, request.user_name) is None:
-        logger.warning(f'Already subscribed with: {request.email_address}')
-        raise HTTPException(status_code=409, detail=f"Already subscribed with {request.email_address}")
+    if not subscriber.add_subscriber(request.email_address, request.user_name):
+        logger.warning(f'Unable to add subscriber: {request.email_address}')
+        raise HTTPException(status_code=409, detail=f"Unable to add subscriber: {request.email_address}")
     else:
         return {"status": "success", "message": "Subscribed with {0}".format(request.email_address)}
 
 
 @app.post("/newsletter/unsubscribe")
 def newsletter_subscribe(email_address: str):
-    return {"status": "success", "message": "Feature in progress, we will remove {0} soon".format(email_address)}
+    subscriber = SubscriberRepository()
+    if subscriber.remove_subscriber(email_address):
+        return {"status": "success", "message": "Feature in progress, we will remove {0} soon".format(email_address)}
 

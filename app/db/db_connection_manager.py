@@ -16,6 +16,9 @@ class DBConnectionManager:
         self.logger.info("Connection to CockroachDB open.")
         return self.cursor
 
+    def commit(self):
+        self.conn.commit()
+
     def close_connection(self):
         self.logger.info('close_connection')
         try:
