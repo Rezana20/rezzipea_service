@@ -1,12 +1,16 @@
 # rezzipea_service
 This is a website for my recipes
 
+### Coding rules
+1. Run `isort *` before commiting to github
+2. Run `black` before commiting to github
+
 ### Run the service locally
 Go to one level above rezzipea_service
 ```bash
     python3 -m venv rezzipeas_venv
     source /Users/rezanadowra/Documents/GitHub/rezzipea_service/rezzipeas_venv/bin/activate
-    uvicorn rezzipea_service.app.handlers.main:app --host 0.0.0.0 --port 80
+    uvicorn app.handlers.main:app --host 0.0.0.0 --port 80
 ```
 Hint you should see that you are in the virtual env on your terminal
 
@@ -24,11 +28,11 @@ Connection steps:
 ### Run the service in a docker container
 1. Start docker
 2. Delete old containers + images
-3. Run `docker build -t myimage .  ` to create the image 
+3. Run `docker build -t myimage .  ` to create the image
 4. Run image in my container with ` docker run -d --name mycontainer -p 80:80 --env-file dev.env  myimage`
 5. Navigate to `http://0.0.0.0:80` or `http://127.0.0.1/docs `
 
-### Setup 
+### Setup
 
 If you wish to install a Python library that isn't in Homebrew, use a virtual environment:
 
@@ -38,10 +42,9 @@ python3 -m pip install <package-name>
 
 #### Troubleshooting
 
-1. I tried using the env and I when running the uvicorn command I get uvicorn not found. 
+1. I tried using the env and I when running the uvicorn command I get uvicorn not found.
    - python3 -m uvicorn app.handlers.main:app --reload
 
 ### Links
 
 - Initial Setup was inspired from https://fastapi.tiangolo.com/deployment/docker/
-

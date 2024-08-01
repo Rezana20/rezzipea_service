@@ -1,7 +1,7 @@
+import logging
 import os
 
 import psycopg2
-import logging
 
 
 class DBConnectionManager:
@@ -11,7 +11,7 @@ class DBConnectionManager:
         self.cursor = None
 
     def open_connection(self):
-        self.logger.info('open_connection')
+        self.logger.info("open_connection")
         self.cursor = self.conn.cursor()
         self.logger.info("Connection to CockroachDB open.")
         return self.cursor
@@ -20,7 +20,7 @@ class DBConnectionManager:
         self.conn.commit()
 
     def close_connection(self):
-        self.logger.info('close_connection')
+        self.logger.info("close_connection")
         try:
             self.cursor.close()
             self.conn.close()

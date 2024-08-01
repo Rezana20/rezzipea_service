@@ -1,4 +1,4 @@
-FROM amopromo/python3.9-nginx
+FROM --platform=linux/amd64 amopromo/python3.9-nginx
 
 # Set PYTHONPATH to include the /code directory
 ENV PYTHONPATH=/code
@@ -21,6 +21,11 @@ RUN pip3 install --no-cache-dir --upgrade -r /code/requirements.txt
 # Move the code from the app folder to insider the docker container under /code/app
 COPY ./app /code/app
 
-# run the uvicorn server
-CMD ["uvicorn", "app.handlers.main:app", "--host", "0.0.0.0", "--port", "80"]
+# Expose the port
+EXPOSE 8080
 
+# Define environment variable
+ENV PORT=8080
+
+# run the uvicorn server
+CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "app.handlers.main:app", "--host", "0.0.0.0", "--port", "8080","--timeout-keep-alive", "600"]

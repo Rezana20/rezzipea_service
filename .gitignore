@@ -1,2 +1,14 @@
-dev.env
-/postgresql
+# .gitignore
+
+# Ignore virtual environment directories
+/rez/
+
+# Ignore the .idea directory
+.idea/
+
+# Ignore other directories and files as needed
+node_modules/
+dist/
+*.log
+*.env
+/rez/

@@ -1,19 +1,23 @@
-import pytest
 import csv
+
+import pytest
 import requests
+
 
 # Fixture to set up and tear down the CSV file for testing
 @pytest.fixture
 def setup_csv_file():
     # Write initial data to the CSV file
-    with open("../data/subscribers", 'w', newline='') as csvfile:
+    with open("../data/subscribers", "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["John Doe", "johndoe@example.com"])
         writer.writerow(["Jane Smith", "janesmith@example.com"])
     yield
     # Remove the CSV file after the test
     import os
+
     os.remove("../data/subscribers")
+
 
 # Test subscribing to newsletter
 # def test_subscribe_to_newsletter(setup_csv_file):
